@@ -2,6 +2,8 @@
 
 Ce projet consiste à créer une application web dynamique pour rechercher des super-héros et afficher leurs détails à l'aide de Vue.js et de l'API Superhero
 
+![Capture d'écran 2025-01-17 182853](https://github.com/user-attachments/assets/477ea56e-0282-47ae-85b5-e5d2c99b370d)
+
 ## Description
 
 Le projet **TD-SuperHero** vous permet de rechercher des super-héros en fonction de critères spécifiques, comme leur intelligence, force et vitesse. Il utilise l'API Superhero pour récupérer les données des super-héros et les afficher de manière dynamique. Vous pouvez interagir avec l'application en ajustant des curseurs pour définir les valeurs minimales de ces critères et afficher les super-héros correspondants
