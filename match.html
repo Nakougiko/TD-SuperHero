@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SuperPower Matcher</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+    <script src="https://unpkg.com/axios@latest"></script>
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <div id="app" class="container mt-4">
+        <h1 class="text-center">SuperPower Matcher</h1>
+
+        <div class="my-4">
+            <label for="intelligence">Intelligence</label>
+            <input type="range" id="intelligence" v-model="intelligence" min="0" max="100" class="form-range">
+            <span>{{ intelligence }}</span>
+        </div>
+
+        <div class="my-4">
+            <label for="force">Force</label>
+            <input type="range" id="force" v-model="force" min="0" max="100" class="form-range">
+            <span>{{ force }}</span>
+        </div>
+
+        <div class="my-4">
+            <label for="speed">Vitesse</label>
+            <input type="range" id="speed" v-model="speed" min="0" max="100" class="form-range">
+            <span>{{ speed }}</span>
+        </div>
+
+        <button @click="searchHeroes" class="btn btn-primary">Rechercher</button>
+
+        <h3 class="mt-4">Résultats :</h3>
+        <ul v-if="heroes.length > 0">
+            <li v-for="hero in heroes" :key="hero.id">{{ hero.name }}</li>
+        </ul>
+        <p v-else>Aucun super-héros trouvé</p>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    intelligence: 90,
+                    force: 80,       
+                    speed: 94,       
+                    heroes: [],      
+                };
+            },
+            methods: {
+                searchHeroes() {
+                    axios
+                        .get("https://cdn.jsdelivr.net/gh/rtomczak/superhero-api@0.3.0/api/all.json")
+                        .then(response => {
+                            // Filtrer les héros en fonction des critères du formulaire
+                            this.heroes = response.data.filter(hero =>
+                                hero.powerstats.intelligence >= this.intelligence &&
+                                hero.powerstats.strength >= this.force &&
+                                hero.powerstats.speed >= this.speed
+                            );
+                        })
+                        .catch(error => {
+                            console.error("Erreur lors de la recherche des super-héros :", error);
+                        });
+                },
+            },
+            watch: {
+                intelligence: "searchHeroes",
+                force: "searchHeroes",
+                speed: "searchHeroes",
+            },
+            mounted() {
+                this.searchHeroes();
+            },
+        });
+
+        app.mount("#app");
+    </script>
+    <script>
+        fetch("navbar.html")
+            .then((response) => response.text())
+            .then((html) => {
+                document.getElementById("navbar-placeholder").innerHTML = html;
+
+                // Identifier la page active en fonction de l'URL
+                const currentPage = window.location.pathname.split("/").pop(); // Récupère "index.html" ou "detail.html" etc...
+                const navLinks = document.querySelectorAll(".nav-link");
+
+                navLinks.forEach((link) => {
+                    // Ajoutez la classe active si le href du lien correspond à la page actuelle
+                    if (link.getAttribute("href") === currentPage) {
+                        link.classList.add("active");
+                    } else {
+                        link.classList.remove("active"); // Nettoyage des autres liens
+                    }
+                });
+            });
+    </script>
+</body>
+</html>
