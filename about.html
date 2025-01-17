@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>À Propos de Moi</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="app">
+        <div id="navbar-placeholder"></div>
+
+
+        <h1 class="my-4 text-center">À Propos de Moi</h1>
+
+        <div class="card mx-auto w-75">
+            <img :src="user.profilePicture" class="card-img-top p-3" alt="Profil"
+                style="border-radius: 25px; max-width: 50%; display: block; margin: auto;" />
+            <div class="card-body">
+                <h2 class="card-title text-center">{{ user.name }}</h2>
+                <p class="text-center"><strong>Profession :</strong> {{ user.profession || 'N/A' }}</p>
+
+                <hr>
+                <!-- Informations Personnelles -->
+                <div class="mb-3">
+                    <h4>Biographie</h4>
+                    <p><strong>Alter Ego : </strong>{{user.alterEgos}}</p>
+                    <p><strong>Alias : </strong>{{user.alias}}</p>
+                    <p><strong>Lieu de naissance : </strong>{{user.birthLocation}}</p>
+                    <p><strong>Âge :</strong> {{ user.age || 'N/A' }}</p>
+                    <p><strong>Lieu de résidence :</strong> {{ user.location || 'N/A' }}</p>
+                    <p><strong>Première apparition : </strong>{{user.firstAppearance}}</p>
+                    <p><strong>Pokemon Favoris : </strong>{{user.favoritePokemon}}</p>
+                </div>
+                <hr>
+
+                <!-- Apparence -->
+                <div class="mb-3">
+                    <h4>Apparence</h4>
+                    <p><strong>Genre :</strong> {{ user.appearance.gender }}</p>
+                    <p><strong>Race :</strong> {{ user.appearance.race }}</p>
+                    <p><strong>Taille :</strong> {{ user.appearance.height.join(' / ') }}</p>
+                    <p><strong>Poids :</strong> {{ user.appearance.weight.join(' / ') }}</p>
+                    <p><strong>Couleur des yeux :</strong> {{ user.appearance.eyeColor }}</p>
+                    <p><strong>Couleur des cheveux :</strong> {{ user.appearance.hairColor }}</p>
+                </div>
+                <hr>
+
+                <!-- Compétences -->
+                <div class="mb-3">
+                    <h4>Statistiques de puissance</h4>
+                    <ul>
+                        <li v-for="(value, key) in user.skills" :key="key">
+                            {{ key }} : {{ value }}
+                        </li>
+                    </ul>
+                </div>
+
+                <hr>
+                <!-- Travail -->
+                <div class="mb-3">
+                    <h4>Travail</h4>
+                    <p><strong>Occupation :</strong> <a v-bind:href="user.githubUrl"
+                            target="_blank">{{user.githubUrl}}</a></p>
+                    <p><strong>Base d'opérations :</strong> {{user.jobLocation}}</p>
+                </div>
+                <hr>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    user: {
+                        profilePicture: "https://th.bing.com/th/id/OIP.xcxDqYcwiX0BECYWVImNCQHaK8?rs=1&pid=ImgDetMain",
+                        name: "Goulois Lukas",
+                        profession: "Etudiant en developpement logiciel et web et Spider-man (à temps partiel)",
+                        age: 20, // Âge
+                        location: "Lille, France",
+                        skills: {
+                            "Humour": 100,
+                            "Developpement": 99,
+                            "Sauver des chats coincé sur les arbres": 75, "Vue.js": 50,
+                        },
+                        appearance: {
+                            gender: "Homme",
+                            race: "Humain",
+                            height: ["5'7", "170 cm"],
+                            weight: ["Eh ça se dit pas sa !"],
+                            eyeColor: "Marron",
+                            hairColor: "Noir",
+                        },
+                        githubUrl: "https://github.com/Nakougiko",
+                        jobLocation: "Valencienne",
+                        alterEgos: "Spider-Man",
+                        birthLocation: "Dechy, France",
+                        firstAppearance: "Hôpital de Dechy, France",
+                        alias: "La petite araignée du quartier",
+                        favoritePokemon: "Ectoplasma / Gengar"
+                    },
+                };
+            },
+        });
+
+        app.mount("#app");
+    </script>
+    <script>
+        fetch("navbar.html")
+            .then((response) => response.text())
+            .then((html) => {
+                document.getElementById("navbar-placeholder").innerHTML = html;
+
+                // Identifier la page active en fonction de l'URL
+                const currentPage = window.location.pathname.split("/").pop(); // Récupère "index.html" ou "detail.html" etc...
+                const navLinks = document.querySelectorAll(".nav-link");
+
+                navLinks.forEach((link) => {
+                    // Ajoutez la classe active si le href du lien correspond à la page actuelle
+                    if (link.getAttribute("href") === currentPage) {
+                        link.classList.add("active");
+                    } else {
+                        link.classList.remove("active"); // Nettoyage des autres liens
+                    }
+                });
+            });
+    </script>
+</body>
+</html>
