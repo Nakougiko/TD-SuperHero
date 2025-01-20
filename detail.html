@@ -24,8 +24,8 @@
             <div class="card-body">
                 <h2 class="card-title text-center">{{ hero.name }}</h2>
                 <p class="text-center"><strong>Nom complet :</strong> {{ hero.biography.fullName || 'N/A' }}</p>
-
                 <hr>
+
                 <!-- Biographie -->
                 <div class="mb-3">
                     <h4>Biographie</h4>
@@ -62,16 +62,16 @@
                         <li>Combat : {{ hero.powerstats.combat }}</li>
                     </ul>
                 </div>
-
                 <hr>
+
                 <!-- Travail -->
                 <div class="mb-3">
                     <h4>Travail</h4>
                     <p><strong>Occupation :</strong> {{ hero.work.occupation || 'N/A' }}</p>
                     <p><strong>Base d'opérations :</strong> {{ hero.work.base || 'N/A' }}</p>
                 </div>
-
                 <hr>
+
                 <!-- Connexions -->
                 <div class="mb-3">
                     <h4>Connexions</h4>
@@ -79,6 +79,7 @@
                     <p><strong>Parents :</strong> {{ hero.connections.relatives || 'N/A' }}</p>
                 </div>
                 <hr>
+                
             </div>
         </div>
 
@@ -99,10 +100,7 @@
 
                 if (heroId) {
                     // Charger les données du superhéros avec son ID
-                    axios
-                        .get(
-                            "https://cdn.jsdelivr.net/gh/rtomczak/superhero-api@0.3.0/api/all.json"
-                        )
+                    axios.get("https://cdn.jsdelivr.net/gh/rtomczak/superhero-api@0.3.0/api/all.json")
                         .then((response) => {
                             // Trouver le héros correspondant dans les données
                             this.hero = response.data.find((h) => h.id === parseInt(heroId));

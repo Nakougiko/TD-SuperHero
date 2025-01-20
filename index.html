@@ -12,24 +12,29 @@
     <script src="navbar.js"></script>
 </head>
 <body>
+    <!-- Navbar -->
     <div id="navbar-placeholder"></div>
+
+
     <div id="app">
         <h1 class="my-4 p-3 text-center">Liste des Superhéros</h1>
 
+        <!-- Partis recherche -->
         <div class="input-group mb-3 w-75 mx-auto">
             <input type="text" v-model="searchQuery" class="form-control" placeholder="Rechercher un superhéros par nom" />
             <button type="button" @click="resetSearch" class="btn btn-primary">Réinitialiser</button>
         </div>
 
+        <!-- Checkbox -->
         <div class="form-check mb-3 w-75 mx-auto">
             <input type="checkbox" name="afficherPouvoir" id="afficherPouvoir" v-model="afficherPouvoir"
                 class="form-check-input" />
             <label for="afficherPouvoir" class="form-check-label ms-2">Afficher les pouvoirs</label>
         </div>
 
+        <!-- Liste des superhéros -->
         <ul class="list-group w-75 mx-auto">
-            <li class="list-group-item list-group-item-action" v-for="hero in filteredSuperheros" :key="hero.id"
-                v-on:click="detailSuperhero">
+            <li class="list-group-item list-group-item-action" v-for="hero in filteredSuperheros" :key="hero.id" v-on:click="detailSuperhero">
                 <div class="d-flex align-items-center">
                     <img :src="hero.images.sm" class="rounded-circle me-3" alt="hero image" width="50" />
                     <div class="flex-grow-1">
@@ -53,15 +58,13 @@
         const app = Vue.createApp({
             data() {
                 return {
-                    superheros: [],
-                    afficherPouvoir: false,
+                    superheros: [], // liste des superhéros
+                    afficherPouvoir: false, 
                     searchQuery: "",
                 };
             },
-            mounted() {
-                axios.get(
-                    "https://cdn.jsdelivr.net/gh/rtomczak/superhero-api@0.3.0/api/all.json"
-                )
+            mounted() { // on récupère les superhéros avec l'api lorsque le site est monté
+                axios.get("https://cdn.jsdelivr.net/gh/rtomczak/superhero-api@0.3.0/api/all.json")
                     .then((response) => {
                         this.superheros = response.data;
                     })
@@ -70,10 +73,10 @@
                     });
             },
             computed: {
-                filteredSuperheros() {
-                    return this.superheros.filter((hero) => {
+                filteredSuperheros() { // fonction pour le filtre de superheros selon la recherche
+                    return this.superheros.filter((hero) => { 
                         return hero.name
-                            .toLowerCase()
+                            .toLowerCase() // on met en minuscule
                             .includes(this.searchQuery.toLowerCase());
                     });
                 },
@@ -82,8 +85,8 @@
                 resetSearch() {
                     this.searchQuery = "";
                 },
-                detailSuperhero(event) {
-                    const heroId = event.currentTarget.querySelector("small").textContent;
+                detailSuperhero(event) { // fonction pour rediriger vers la page de détail
+                    const heroId = event.currentTarget.querySelector("small").textContent; // on récupère l'id du superhéros
                     window.location.href = `detail.html?id=${heroId}`;
                 },
             },

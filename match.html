@@ -12,11 +12,13 @@
     <script src="navbar.js"></script>
 </head>
 <body>
+    <!-- Navbar -->
     <div id="navbar-placeholder"></div>
 
     <div id="app" class="container mt-4">
         <h1 class="text-center">SuperPower Matcher</h1>
 
+        <!-- Les curseurs -->
         <div class="my-4">
             <label for="intelligence">Intelligence</label>
             <input type="range" id="intelligence" v-model="intelligence" min="0" max="100" class="form-range">
@@ -37,6 +39,7 @@
 
         <button @click="searchHeroes" class="btn btn-primary">Rechercher</button>
 
+        <!-- Les résultats -->
         <h3 class="mt-4">Résultats :</h3>
         <ul v-if="heroes.length > 0">
             <li v-for="hero in heroes" :key="hero.id">{{ hero.name }}</li>
@@ -48,7 +51,8 @@
         const app = Vue.createApp({
             data() {
                 return {
-                    intelligence: 90,
+                    // Valeurs par défaut des curseurs
+                    intelligence: 90, 
                     force: 80,       
                     speed: 94,       
                     heroes: [],      
@@ -56,8 +60,7 @@
             },
             methods: {
                 searchHeroes() {
-                    axios
-                        .get("https://cdn.jsdelivr.net/gh/rtomczak/superhero-api@0.3.0/api/all.json")
+                    axios.get("https://cdn.jsdelivr.net/gh/rtomczak/superhero-api@0.3.0/api/all.json")
                         .then(response => {
                             // Filtrer les héros en fonction des critères du formulaire
                             this.heroes = response.data.filter(hero =>
@@ -71,7 +74,7 @@
                         });
                 },
             },
-            watch: {
+            watch: { // Appel de la méthode searchHeroes à chaque changement de curseur
                 intelligence: "searchHeroes",
                 force: "searchHeroes",
                 speed: "searchHeroes",
